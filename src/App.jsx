@@ -16,36 +16,6 @@ export const App = () => {
         };
     };
     
-    const dateNow = new Date()
-    const getDateFormat =  (date, separator) => {
-        let data = date.getDate();
-        let month = date.getMonth();
-        const year = date.getFullYear();
-        function proba(data, month) {
-            if (data < 10) {
-                data = `0${data}`
-            };
-            if (month < 1) {
-                month = `${month}1`
-            } else if (month < 10) {
-                month = `0${month}`
-            }
-            return {data, month}
-        }; 
-
-        const form = proba(data, month);
-        data = form.data;
-        month = form.month
-        
-        return `${data}${separator}${month}${separator}${year}`
-    };
-
-    const time = {
-      hours: dateNow.getHours(),
-      minutes: dateNow.getMinutes(),
-      seconds: dateNow.getSeconds()
-    }
-
     const onAddButtonClick = () => {
         if (isValueVaild) {
             setList([...list, value]);
@@ -56,15 +26,14 @@ export const App = () => {
         const newItem = {
             id: Date.now(),
             value: value,
-            date: getDateFormat(dateNow, '.'),
-            time: `${time.hours}:${time.minutes}:${time.seconds}`
+            date: (new Date()).toLocaleString(),
         };
         const updatedList = [...list, newItem];
         setList(updatedList)
     };
 
     const isVisibalElement = list.length === 0;
-    const isValueVaild = value.length >= 3 ? true : false;
+    const isValueVaild = value.length >= 3;
     const isVisibal = Boolean(error);
     
     
@@ -88,7 +57,7 @@ export const App = () => {
                     <ul className={styles.list}>
                         {list.map(item => (
                             <li className={styles.listItem} key={item.id}>
-                                {item.value} {item.date} {item.time}
+                                {item.value} {item.date} 
                             </li>
                         ))}
                     </ul>
